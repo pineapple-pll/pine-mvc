@@ -12,5 +12,4 @@ public class PineMvcApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PineMvcApplication.class, args);
 	}
-
 }
