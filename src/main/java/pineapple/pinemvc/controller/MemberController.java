@@ -45,15 +45,11 @@ public class MemberController {
         // 헤더설정
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
         // Object Mapper를 통한 JSON 바인딩
 //        Map<String, Object> map = new HashMap<>();
 //        map.put("memberId", member.getMemberId());
 //        map.put("password", member.getPassword());
         String entityBody = member.getMemberLoginJson();
-        System.out.println(entityBody);
-        System.out.println(entityBody);
-        System.out.println(entityBody);
 
 //        String params1 = objectMapper.writeValueAsString(map);
 
@@ -68,11 +64,8 @@ public class MemberController {
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(sb.toString(), HttpMethod.POST, entity, String.class);
 
-        Cookie idCookie = new Cookie("memberToken", String.valueOf(responseEntity.getBody()));
-        idCookie.setPath("/");
-        idCookie.setMaxAge(60 * 30);//60초 30분
-        response.addCookie(idCookie);
-
+        //로그인쿠키
+        setCookie(response, "memberToken", String.valueOf(responseEntity.getBody()));
         return "redirect:/";
     }
 
@@ -85,6 +78,14 @@ public class MemberController {
     private void expireCookie(HttpServletResponse response, String cookieName) {
         Cookie cookie = new Cookie(cookieName, null);
         cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    private void setCookie(HttpServletResponse response, String cookieName, String cookieValue) {
+
+        Cookie cookie = new Cookie("memberToken", cookieValue);
+        cookie.setMaxAge(60 * 30);
         cookie.setPath("/");
         response.addCookie(cookie);
     }

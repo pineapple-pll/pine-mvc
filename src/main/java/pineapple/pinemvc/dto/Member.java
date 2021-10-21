@@ -1,5 +1,7 @@
 package pineapple.pinemvc.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
@@ -33,14 +35,9 @@ public class Member {
     public String getMemberLoginJson() throws JsonProcessingException {
 
         // Object Mapper를 통한 JSON 바인딩
-        System.out.println(this.memberId);
-        System.out.println(getMemberId());
-
         Map<String, Object> map = new HashMap<>();
         map.put("memberId", this.memberId);
         map.put("password", this.password);
-        System.out.println(map.toString());
-        System.out.println(objectMapper.writeValueAsString(map));
 
         return objectMapper.writeValueAsString(map);
     }
