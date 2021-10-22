@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import pineapple.pinemvc.dto.Member;
+import pineapple.pinemvc.dto.request.signupMember;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -35,23 +36,14 @@ public class MemberController {
         return "page-login";
     }
 
-    @GetMapping("/signup")
-    public String signup() {
-        return "page-register";
-    }
-
     @PostMapping("/login")
     public String doLogin(Member member, Model model, HttpServletResponse response) throws JsonProcessingException {
         // 헤더설정
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        // Object Mapper를 통한 JSON 바인딩
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("memberId", member.getMemberId());
-//        map.put("password", member.getPassword());
-        String entityBody = member.getMemberLoginJson();
 
-//        String params1 = objectMapper.writeValueAsString(map);
+        // Object Mapper를 통한 JSON 바인딩
+        String entityBody = objectMapper.writeValueAsString(member);
 
         // HttpEntity에 헤더 및 params 설정
         HttpEntity entity = new HttpEntity(entityBody, httpHeaders);
@@ -67,6 +59,39 @@ public class MemberController {
         //로그인쿠키
         setCookie(response, "memberToken", String.valueOf(responseEntity.getBody()));
         return "redirect:/";
+    }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "page-register";
+    }
+
+    @PostMapping("/signup")
+    public String signupPost(signupMember member, Model model) throws JsonProcessingException {
+        // 헤더설정
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        // Object Mapper를 통한 JSON 바인딩
+        String entityBody = objectMapper.writeValueAsString(member);
+        System.out.println(entityBody);
+        System.out.println(entityBody);
+        System.out.println(entityBody);
+
+        // HttpEntity에 헤더 및 params 설정
+        HttpEntity entity = new HttpEntity(entityBody, httpHeaders);
+
+        // RestTemplate의 exchange 메서드를 통해 URL에 HttpEntity와 함께 요청
+        StringBuilder sb = new StringBuilder();
+        RestTemplate restTemplate = new RestTemplate();
+        String loginUrl =  "/auth/members/signup";
+        sb.append(authServer).append(loginUrl);
+        System.out.println(sb);
+        System.out.println(sb);
+        System.out.println(sb);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(sb.toString(), HttpMethod.POST, entity, String.class);
+        return "page-register";
     }
 
     @PostMapping("/logout")
