@@ -1,8 +1,7 @@
-package pineapple.pinemvc.dto.request;
+package pineapple.pinemvc.module.member.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pineapple.pinemvc.dto.Phone;
 
 @Getter
 @AllArgsConstructor

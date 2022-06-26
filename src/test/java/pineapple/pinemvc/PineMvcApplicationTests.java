@@ -9,10 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @SpringBootTest
-@PropertySource("classpath:application-${spring.profiles.active}.properties")
 class PineMvcApplicationTests {
 
-	@Value("${pineapple.authServer}")
+	@Value("${pineapple.auth-server-url}")
 	private String authServer;
 
 	@Test

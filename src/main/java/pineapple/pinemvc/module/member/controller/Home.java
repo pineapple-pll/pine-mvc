@@ -1,4 +1,4 @@
-package pineapple.pinemvc.controller;
+package pineapple.pinemvc.module.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class Home {
-    //@GetMapping("/")
+//    @GetMapping("/")
     public String home() {
         return "index";
     }
@@ -17,7 +17,7 @@ public class Home {
             @CookieValue(value = "memberToken", required = false) String memberToken,
             Model model) {
         if (memberToken == null) {
-            return "page-login";
+            return "page-signin";
         }
         //TODO: 회원인지 확인
 

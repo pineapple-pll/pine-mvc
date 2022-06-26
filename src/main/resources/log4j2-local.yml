@@ -1,0 +1,28 @@
+Configutation:
+  name: Default
+  status: info
+
+  Properties:
+    Property:
+      name: log-path
+      value: "pine-logs"
+
+  Appenders: # 로그 메시지를 특정 위치에 전달
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%F] [%c{0}:%L] - %msg%n"
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+    #        - ref: RollingFile_Appender
+    Logger:
+      - name: com.mailplug.task.module # 적용할  패키지
+        additivity: false # 로그 중복 쌓이는거 방지 default : true
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+#          - ref: RollingFile_Appender

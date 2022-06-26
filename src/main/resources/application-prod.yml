@@ -1,0 +1,59 @@
+spring:
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Drive
+  #      url: jdbc:mysql://218.145.110.135:3301/pineapple?serverTimezone=UTC&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+  #      username: root
+  #      password: #!@rkwk200#$
+  #      hikari:
+  #        # global wait_timeout 600?( -5? ), spring ?? ms
+  #        max-lifetime: 595000
+
+  #jpa:
+  #  database-platform: org.hibernate.dialect.MariaDB103Dialect
+  #  open-in-view: false
+  #  show-sql: true
+  #  properties:
+  #    hibernate:
+  #      format_sql: true
+
+  jwt:
+    secret: PEN_PINEAPPLE_APPLE_PEN
+
+#logging:
+#  config: classpath:log4j2-prod.yml
+#  level:
+#    root: info
+#    org:
+#      hibernate:
+#        type: info
+
+pineapple:
+  pine-zuul-url: "http://localhost:8000"
+  pine-euraka-url: "http://localhost:8001"
+  pine-cache-url: "http://localhost:8002"
+  pine-auth-url: "http://localhost:8100"
+  pine-quant-url: "http://localhost:8101"
+
+  # rabbitmq:
+  #   host: 172.20.20.200
+  #   port: 5672
+  #   username: test
+  #   password: test
+  #
+  # cache:
+  #   type: redis
+  #
+  # redis:
+#   host: 192.168.20.200
+#   port: 6379
+#   password:
+#
+# sentry:
+#   enable: true
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#      base-path: "/api/v1/actuator"

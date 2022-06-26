@@ -1,4 +1,4 @@
-package pineapple.pinemvc.dto;
+package pineapple.pinemvc.module.member.dto;
 
 import lombok.Builder;
 import lombok.Getter;

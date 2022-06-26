@@ -1,0 +1,43 @@
+#local, dev, prod 공통 설정
+application:
+  version: 1.0.0
+  title: pine-apple
+
+spring:
+  profiles:
+    active: local #profiles 선언하여 적용할 profile을 선택 한다.
+
+#  thymeleaf:
+#    view-names: thymeleaf/*
+#    prefix: classpath:templates/
+#    suffix: .html
+#    cache: false
+
+--- #local 환경
+spring:
+  config:
+    activate:
+      on-profile: local
+logging:
+  level:
+    root: debug
+
+--- #dev 환경
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    root: info
+
+--- #prod 환경
+spring:
+  config:
+    activate:
+      on-profile: prod
+server:
+  port: 9090
+logging:
+  level:
+    root: error

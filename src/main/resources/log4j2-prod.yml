@@ -1,0 +1,88 @@
+Configutation:
+  name: Default
+  status: info
+  monitorInterval: 300 #300초마다 설정파일 탐색하여 변경사항 있을 시 재시작 없이 변경사항 적용
+
+  Properties:
+    Property:
+      name: log-path
+      value: "/var/log"
+
+  Appenders: # 로그 메시지를 특정 위치에 전달
+    #    Console:
+    #      name: Console_Appender
+    #      target: SYSTEM_OUT
+    #      PatternLayout:
+    #        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%F] [%c{0}:%L] - %msg%n"
+    RollingFile:
+      - name: RollingFile_Appender
+        fileName: ${log-path}/pine_mvc.log
+        filePattern: "${log-path}/pine_archive/pine_app.log_%d{yyyy-MM-dd}_%i.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%F] [%c{0}:%L] - %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy: # time에 따른 trigger ( 하루에 한번 rolling up )
+            Interval: 1
+            modulate: true
+        DefaultRollOverStrategy:
+          Delete:
+            basePath: "${log-path}/pine_archive"
+            maxDepth: "1" #파일만 지울 경우 1
+            IfAccumulatedFileCount: # 30일치 로그 보관 rollingup된 압축파일을 저장하는 디렉터리에 존재할 수 있는 파일 개수, 파일개수 넘으면 오래된 파일부터 삭제
+              exceeds: 31 # 30일치 보관 (31번째 로그파일이 쌓일 때 첫 번째 로그파일 삭제)
+      # 알림 발송 로그
+      - name: NotiLog
+        fileName: ${log-path}/pine_noti.log
+        filePattern: "${log-path}/pine_archive/noti/pine_noti.log_%d{yyyy-MM-dd}.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            Interval: 1
+            modulate: true
+        DefaultRollOverStrategy:
+          Delete:
+            basePath: "${log-path}/pine_archive/noti"
+            maxDepth: "1"
+            IfAccumulatedFileCount:
+              exceeds: 8
+      # 용량 - 안내메일 발송 요청 실패 로그
+      - name: CapacityLog
+        fileName: ${log-path}/pine_capacity.log
+        filePattern: "${log-path}/pine_archive/capacity/pine_capacity.log_%d{yyyy-MM-dd}.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            Interval: 1
+            modulate: true
+        DefaultRollOverStrategy:
+          Delete:
+            basePath: "${log-path}/pine_archive/capacity"
+            maxDepth: "1"
+            IfAccumulatedFileCount:
+              exceeds: 8
+
+  # Loggers:
+  #   Root:
+  #     level: info
+  #     AppenderRef:
+  #       #        - ref: Console_Appender
+  #       - ref: RollingFile_Appender
+  #   Logger:
+  #     - name: com.mailplug.task.module.capacity
+  #       additivity: false
+  #       level: error
+  #       AppenderRef:
+  #         ref: CapacityLog
+  #     - name: com.mailplug.task.module.notification
+  #       additivity: false
+  #       level: info
+  #       AppenderRef:
+  #         ref: NotiLog
+  #     - name: com.mailplug.task.module # 적용할  패키지
+  #       additivity: false # 로그 중복 쌓이는거 방지 default : true
+  #       level: info
+  #       AppenderRef:
+  #         #          - ref: Console_Appender
+  #         - ref: RollingFile_Appender
