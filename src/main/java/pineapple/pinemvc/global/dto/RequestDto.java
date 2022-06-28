@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pineapple.pinemvc.global.error.ErrorCode;
 import pineapple.pinemvc.global.error.exception.CustomException;
-import pineapple.pinemvc.global.error.exception.ErrorCode;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class RequestDto {
     public void validDto(RequestDto requestDto) {
         String[] allowMethodList = {"GET", "POST", "PATCH", "DELETE"};
         if (!Arrays.stream(allowMethodList).anyMatch(requestDto.getMethod().toUpperCase(Locale.ROOT)::equals)) {
-//            throw new CustomException(ErrorCode.NOT_ALLOWED_METHOD);
+            throw new CustomException(ErrorCode.NOT_ALLOWED_METHOD);
         }
     }
 }
